@@ -1,0 +1,6 @@
+.env
+vectorstore/
+__pycache__/
+*.pyc
+*.pyo
+.env.local
