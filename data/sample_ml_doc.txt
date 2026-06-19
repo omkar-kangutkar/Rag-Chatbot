@@ -1,0 +1,33 @@
+Introduction to Machine Learning
+
+Machine learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.
+
+Types of Machine Learning
+
+Supervised Learning involves training a model on labeled data. The algorithm learns to map input features to output labels. Common examples include classification (spam detection, image recognition) and regression (house price prediction, stock forecasting).
+
+Unsupervised Learning works with unlabeled data to find hidden patterns or groupings. Clustering algorithms like K-Means group similar data points together. Dimensionality reduction techniques like PCA compress data while preserving important structure.
+
+Reinforcement Learning trains agents to make decisions by rewarding desired behaviors. An agent interacts with an environment, receives feedback as rewards or penalties, and learns to maximize cumulative reward over time. This approach powers game-playing AI and robotics.
+
+Key Algorithms
+
+Linear Regression is one of the simplest ML algorithms, used to predict continuous values. It finds the best-fit line through data by minimizing the sum of squared errors between predictions and actual values.
+
+Decision Trees split data into branches based on feature values, creating a tree-like structure of decisions. They are interpretable and handle both classification and regression tasks. Random Forests combine many decision trees to improve accuracy and reduce overfitting.
+
+Neural Networks are inspired by the human brain and consist of layers of interconnected nodes. Deep learning uses neural networks with many layers to learn complex representations from raw data like images, audio, and text.
+
+Support Vector Machines find the optimal hyperplane that separates classes in high-dimensional space. They are effective in high-dimensional spaces and are memory-efficient.
+
+Model Evaluation
+
+Accuracy measures the proportion of correct predictions overall. Precision measures how many positive predictions were actually correct. Recall measures how many actual positives were correctly identified. F1 Score is the harmonic mean of precision and recall, useful for imbalanced datasets.
+
+Cross-validation splits data into multiple folds to estimate model performance more reliably. The training and test sets rotate across folds, giving each sample a chance to be in the test set.
+
+Overfitting occurs when a model learns the training data too well, including noise, and performs poorly on new data. Underfitting occurs when a model is too simple to capture the underlying patterns.
+
+Common Applications
+
+Machine learning is used in recommendation systems (Netflix, Spotify), natural language processing (chatbots, translation), computer vision (self-driving cars, medical imaging), fraud detection, and predictive maintenance in manufacturing.
