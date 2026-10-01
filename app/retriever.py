@@ -9,11 +9,13 @@ This is kept separate from the chain so you can:
   - Test retrieval independently from LLM generation
 """
 
-from typing import List
+from __future__ import annotations
 
-from langchain.schema import Document
-from langchain_community.vectorstores import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+from typing import TYPE_CHECKING, List
+
+if TYPE_CHECKING:
+    from langchain_core.documents import Document
+    from langchain_community.vectorstores import Chroma
 
 from app.config import (
     CHROMA_PERSIST_DIR,
@@ -35,6 +37,9 @@ def get_vectorstore() -> Chroma:
 
     if _vectorstore is not None:
         return _vectorstore
+
+    from langchain_community.vectorstores import Chroma
+    from langchain_huggingface import HuggingFaceEmbeddings
 
     embeddings = HuggingFaceEmbeddings(
         model_name=EMBEDDING_MODEL,

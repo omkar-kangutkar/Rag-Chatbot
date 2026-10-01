@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 *.pyo
 .env.local
+.venv*/
+.pytest_cache/
