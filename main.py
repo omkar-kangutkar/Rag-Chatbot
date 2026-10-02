@@ -22,16 +22,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from app.chain import ask
 from app.config import CHROMA_PERSIST_DIR, TOP_K
-
-
-def run_ingestion():
-    """Load ingestion dependencies only when ingestion is requested."""
-    from app.ingest import run_ingestion as ingest
-
-    return ingest()
-
+from app.service import ask, run_ingestion
 
 # ── Lifespan: pre-load vector store on startup ───────────────────────────────
 
