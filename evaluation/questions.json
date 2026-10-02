@@ -1,0 +1,72 @@
+[
+  {
+    "id": "cafe_hours",
+    "question": "When does Willow Cafe open on Saturdays?",
+    "expected_answer": "9 am to 3 pm.",
+    "expected_sources": ["project.txt"],
+    "answerable": true
+  },
+  {
+    "id": "cafe_price",
+    "question": "How much is a cappuccino with oat milk at Willow Cafe?",
+    "expected_answer": "£3.60: £3.20 plus 40p.",
+    "expected_sources": ["project.txt"],
+    "answerable": true
+  },
+  {
+    "id": "cafe_dogs",
+    "question": "Can I bring my dog inside Willow Cafe?",
+    "expected_answer": "No. Dogs are welcome in the outdoor seating area only.",
+    "expected_sources": ["project.txt"],
+    "answerable": true
+  },
+  {
+    "id": "cafe_booking",
+    "question": "How far ahead must a group of eight book at Willow Cafe?",
+    "expected_answer": "At least one day in advance.",
+    "expected_sources": ["project.txt"],
+    "answerable": true
+  },
+  {
+    "id": "library_loans",
+    "question": "How many books can a Brookford Library member borrow, and for how long?",
+    "expected_answer": "Up to five books for three weeks.",
+    "expected_sources": ["library.txt"],
+    "answerable": true
+  },
+  {
+    "id": "library_renewal",
+    "question": "Can I renew a book that someone else has reserved?",
+    "expected_answer": "No. Renewal is allowed once only if nobody else has reserved it.",
+    "expected_sources": ["library.txt"],
+    "answerable": true
+  },
+  {
+    "id": "library_event",
+    "question": "When is the library storytelling session, and can a child attend alone?",
+    "expected_answer": "Saturday at 11 am. Children must be accompanied by an adult.",
+    "expected_sources": ["library.txt"],
+    "answerable": true
+  },
+  {
+    "id": "both_saturday_hours",
+    "question": "What are the Saturday opening hours of Willow Cafe and Brookford Library?",
+    "expected_answer": "Cafe: 9 am to 3 pm. Library: 10 am to 2 pm.",
+    "expected_sources": ["project.txt", "library.txt"],
+    "answerable": true
+  },
+  {
+    "id": "unknown_owner",
+    "question": "Who owns Willow Cafe?",
+    "expected_answer": "The documents do not provide this information.",
+    "expected_sources": [],
+    "answerable": false
+  },
+  {
+    "id": "unknown_parking",
+    "question": "Does Brookford Library have free parking?",
+    "expected_answer": "The documents do not provide this information.",
+    "expected_sources": [],
+    "answerable": false
+  }
+]
