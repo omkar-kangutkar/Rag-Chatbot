@@ -6,3 +6,4 @@ __pycache__/
 .env.local
 .venv*/
 .pytest_cache/
+/evaluation/results.json

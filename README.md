@@ -2,6 +2,19 @@
 
 A document question-answering project using local embeddings, ChromaDB vector search and an LLM through Groq. FastAPI and Streamlit share the same backend operations.
 
+## Demo
+
+Examples using the fictional cafe and library documents included
+in `evaluation/documents/`.
+
+### Answer with retrieved evidence
+
+![Cafe opening-hours answer with retrieved sources](docs/screenshots/sourced-answer.png)
+
+### Missing information
+
+![Chatbot declining to identify an owner absent from the documents](docs/screenshots/missing-information.png)
+
 ## Architecture
 
 FastAPI (`main.py`) and Streamlit (`app.py`) call the shared
