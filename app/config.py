@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # --- LLM ---
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")          # Free, fast. Get at console.groq.com
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")          
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")       # Optional fallback
 
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq")  # "groq" or "openai"
-LLM_MODEL = os.getenv("LLM_MODEL", "llama3-8b-8192")  # Groq model (free)
+LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-oss-20b")
 
 # --- Embeddings ---
 # Using HuggingFace locally — no API key needed
