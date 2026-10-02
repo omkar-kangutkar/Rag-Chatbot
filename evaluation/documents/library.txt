@@ -1,0 +1,16 @@
+Brookford Library is located at 7 River Road in the fictional town of Brookford.
+
+The library opens Monday to Friday from 10 am to 6 pm.
+On Saturdays, it opens from 10 am to 2 pm.
+It is closed on Sundays.
+
+Library membership is free for Brookford residents.
+Members can borrow up to five books at a time.
+Books must be returned within three weeks.
+A book can be renewed once if nobody else has reserved it.
+
+Printing costs 10p per page in black and white.
+Colour printing costs 40p per page.
+
+A free children's storytelling session takes place every Saturday at 11 am.
+Children must be accompanied by an adult.

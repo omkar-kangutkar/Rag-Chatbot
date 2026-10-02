@@ -1,0 +1,270 @@
+{
+  "timestamp": "2026-10-02T03:12:17.498840+00:00",
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "top_k": 4,
+  "results": [
+    {
+      "id": "cafe_hours",
+      "question": "When does Willow Cafe open on Saturdays?",
+      "expected_answer": "9 am to 3 pm.",
+      "expected_sources": [
+        "project.txt"
+      ],
+      "answerable": true,
+      "answer": "Willow Cafe opens on Saturdays from **9 am to 3 pm**【Source 1: project.txt】",
+      "sources": [
+        {
+          "source": "project.txt",
+          "excerpt": "Willow Cafe is located at 18 Market Street in the fictional town of Brookford. The cafe opens Monday to Friday from 8 am to 5 pm. On Saturdays, it opens from 9 am to 3 pm. It is closed on Sundays. A c..."
+        },
+        {
+          "source": "library.txt",
+          "excerpt": "Brookford Library is located at 7 River Road in the fictional town of Brookford. The library opens Monday to Friday from 10 am to 6 pm. On Saturdays, it opens from 10 am to 2 pm. It is closed on Sunda..."
+        }
+      ],
+      "retrieved_sources": [
+        "library.txt",
+        "project.txt"
+      ],
+      "source_recall": 1.0,
+      "error": null,
+      "latency_ms": 3035.7,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "cafe_price",
+      "question": "How much is a cappuccino with oat milk at Willow Cafe?",
+      "expected_answer": "£3.60: £3.20 plus 40p.",
+      "expected_sources": [
+        "project.txt"
+      ],
+      "answerable": true,
+      "answer": "A cappuccino with oat milk costs **£3.60** (cappuccino £3.20 + oat milk £0.40).【Source 1】",
+      "sources": [
+        {
+          "source": "project.txt",
+          "excerpt": "Willow Cafe is located at 18 Market Street in the fictional town of Brookford. The cafe opens Monday to Friday from 8 am to 5 pm. On Saturdays, it opens from 9 am to 3 pm. It is closed on Sundays. A c..."
+        },
+        {
+          "source": "library.txt",
+          "excerpt": ". Colour printing costs 40p per page. A free children's storytelling session takes place every Saturday at 11 am. Children must be accompanied by an adult...."
+        }
+      ],
+      "retrieved_sources": [
+        "library.txt",
+        "project.txt"
+      ],
+      "source_recall": 1.0,
+      "error": null,
+      "latency_ms": 1334.1,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "cafe_dogs",
+      "question": "Can I bring my dog inside Willow Cafe?",
+      "expected_answer": "No. Dogs are welcome in the outdoor seating area only.",
+      "expected_sources": [
+        "project.txt"
+      ],
+      "answerable": true,
+      "answer": "No – Willow Cafe only allows dogs in the outdoor seating area, not inside the cafe. (Source: project.txt)",
+      "sources": [
+        {
+          "source": "project.txt",
+          "excerpt": "Willow Cafe is located at 18 Market Street in the fictional town of Brookford. The cafe opens Monday to Friday from 8 am to 5 pm. On Saturdays, it opens from 9 am to 3 pm. It is closed on Sundays. A c..."
+        }
+      ],
+      "retrieved_sources": [
+        "project.txt"
+      ],
+      "source_recall": 1.0,
+      "error": null,
+      "latency_ms": 1316.1,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "cafe_booking",
+      "question": "How far ahead must a group of eight book at Willow Cafe?",
+      "expected_answer": "At least one day in advance.",
+      "expected_sources": [
+        "project.txt"
+      ],
+      "answerable": true,
+      "answer": "A group of eight must book at least one day in advance. (Source 1)",
+      "sources": [
+        {
+          "source": "project.txt",
+          "excerpt": ". Groups of more than six people must book at least one day in advance. ...."
+        },
+        {
+          "source": "library.txt",
+          "excerpt": ". Colour printing costs 40p per page. A free children's storytelling session takes place every Saturday at 11 am. Children must be accompanied by an adult...."
+        }
+      ],
+      "retrieved_sources": [
+        "library.txt",
+        "project.txt"
+      ],
+      "source_recall": 1.0,
+      "error": null,
+      "latency_ms": 1342.5,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "library_loans",
+      "question": "How many books can a Brookford Library member borrow, and for how long?",
+      "expected_answer": "Up to five books for three weeks.",
+      "expected_sources": [
+        "library.txt"
+      ],
+      "answerable": true,
+      "answer": "A Brookford Library member can borrow up to five books at a time, and each book must be returned within three weeks. (Source 1)",
+      "sources": [
+        {
+          "source": "library.txt",
+          "excerpt": "Brookford Library is located at 7 River Road in the fictional town of Brookford. The library opens Monday to Friday from 10 am to 6 pm. On Saturdays, it opens from 10 am to 2 pm. It is closed on Sunda..."
+        },
+        {
+          "source": "project.txt",
+          "excerpt": ". Groups of more than six people must book at least one day in advance. ...."
+        }
+      ],
+      "retrieved_sources": [
+        "library.txt",
+        "project.txt"
+      ],
+      "source_recall": 1.0,
+      "error": null,
+      "latency_ms": 1578.0,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "library_renewal",
+      "question": "Can I renew a book that someone else has reserved?",
+      "expected_answer": "No. Renewal is allowed once only if nobody else has reserved it.",
+      "expected_sources": [
+        "library.txt"
+      ],
+      "answerable": true,
+      "answer": "I don't have enough information in the provided documents to answer this.",
+      "sources": [
+        {
+          "source": "project.txt",
+          "excerpt": ". Groups of more than six people must book at least one day in advance. ...."
+        }
+      ],
+      "retrieved_sources": [
+        "project.txt"
+      ],
+      "source_recall": 0.0,
+      "error": null,
+      "latency_ms": 1396.6,
+      "manual_verdict": "fail"
+    },
+    {
+      "id": "library_event",
+      "question": "When is the library storytelling session, and can a child attend alone?",
+      "expected_answer": "Saturday at 11 am. Children must be accompanied by an adult.",
+      "expected_sources": [
+        "library.txt"
+      ],
+      "answerable": true,
+      "answer": "The library holds a free children’s storytelling session every **Saturday at 11 am**【Source 1】.  \nChildren **must be accompanied by an adult**; they cannot attend alone【Source 1】.",
+      "sources": [
+        {
+          "source": "library.txt",
+          "excerpt": ". Colour printing costs 40p per page. A free children's storytelling session takes place every Saturday at 11 am. Children must be accompanied by an adult...."
+        },
+        {
+          "source": "project.txt",
+          "excerpt": ". Groups of more than six people must book at least one day in advance. ...."
+        }
+      ],
+      "retrieved_sources": [
+        "library.txt",
+        "project.txt"
+      ],
+      "source_recall": 1.0,
+      "error": null,
+      "latency_ms": 1477.1,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "both_saturday_hours",
+      "question": "What are the Saturday opening hours of Willow Cafe and Brookford Library?",
+      "expected_answer": "Cafe: 9 am to 3 pm. Library: 10 am to 2 pm.",
+      "expected_sources": [
+        "project.txt",
+        "library.txt"
+      ],
+      "answerable": true,
+      "answer": "Willow Cafe opens on Saturdays from **9 am to 3 pm**【Source 1: project.txt】.  \nBrookford Library opens on Saturdays from **10 am to 2 pm**【Source 2: library.txt】.",
+      "sources": [
+        {
+          "source": "project.txt",
+          "excerpt": "Willow Cafe is located at 18 Market Street in the fictional town of Brookford. The cafe opens Monday to Friday from 8 am to 5 pm. On Saturdays, it opens from 9 am to 3 pm. It is closed on Sundays. A c..."
+        },
+        {
+          "source": "library.txt",
+          "excerpt": "Brookford Library is located at 7 River Road in the fictional town of Brookford. The library opens Monday to Friday from 10 am to 6 pm. On Saturdays, it opens from 10 am to 2 pm. It is closed on Sunda..."
+        }
+      ],
+      "retrieved_sources": [
+        "library.txt",
+        "project.txt"
+      ],
+      "source_recall": 1.0,
+      "error": null,
+      "latency_ms": 1409.0,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "unknown_owner",
+      "question": "Who owns Willow Cafe?",
+      "expected_answer": "The documents do not provide this information.",
+      "expected_sources": [],
+      "answerable": false,
+      "answer": "I don't have enough information in the provided documents to answer this.",
+      "sources": [
+        {
+          "source": "project.txt",
+          "excerpt": "Willow Cafe is located at 18 Market Street in the fictional town of Brookford. The cafe opens Monday to Friday from 8 am to 5 pm. On Saturdays, it opens from 9 am to 3 pm. It is closed on Sundays. A c..."
+        }
+      ],
+      "retrieved_sources": [
+        "project.txt"
+      ],
+      "source_recall": null,
+      "error": null,
+      "latency_ms": 1413.6,
+      "manual_verdict": "pass"
+    },
+    {
+      "id": "unknown_parking",
+      "question": "Does Brookford Library have free parking?",
+      "expected_answer": "The documents do not provide this information.",
+      "expected_sources": [],
+      "answerable": false,
+      "answer": "I don't have enough information in the provided documents to answer this.",
+      "sources": [
+        {
+          "source": "library.txt",
+          "excerpt": "Brookford Library is located at 7 River Road in the fictional town of Brookford. The library opens Monday to Friday from 10 am to 6 pm. On Saturdays, it opens from 10 am to 2 pm. It is closed on Sunda..."
+        },
+        {
+          "source": "project.txt",
+          "excerpt": "Willow Cafe is located at 18 Market Street in the fictional town of Brookford. The cafe opens Monday to Friday from 8 am to 5 pm. On Saturdays, it opens from 9 am to 3 pm. It is closed on Sundays. A c..."
+        }
+      ],
+      "retrieved_sources": [
+        "library.txt",
+        "project.txt"
+      ],
+      "source_recall": null,
+      "error": null,
+      "latency_ms": 1529.4,
+      "manual_verdict": "pass"
+    }
+  ]
+}

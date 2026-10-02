@@ -177,3 +177,11 @@ The following checks passed locally:
 
 These checks demonstrate the tested examples, not a guarantee
 that every generated answer will be correct.
+
+## Evaluation
+
+A small evaluation uses two fictional documents and ten questions.
+The reviewed baseline produced 7/8 correct answers to answerable
+questions and 2/2 correct refusals for missing information.
+
+See [evaluation results and limitations](evaluation/README.md).
