@@ -20,27 +20,28 @@ Architecture:
   Answer + source metadata
 """
 
-from typing import Any, Dict, List
+from __future__ import annotations
 
-from langchain.schema import Document
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnablePassthrough
+from typing import TYPE_CHECKING, Any, Dict, List
+
+if TYPE_CHECKING:
+    from langchain_core.documents import Document
 
 from app.config import (
     GROQ_API_KEY,
     LLM_MODEL,
     LLM_PROVIDER,
     OPENAI_API_KEY,
+    TOP_K,
 )
 from app.retriever import retrieve
 
 
 # ── Prompt Template ──────────────────────────────────────────────────────────
-# This is the core of RAG — the LLM only uses the provided context, 
-# not its training data. This grounds the answers in YOUR documents.
+# The prompt asks the model to ground answers in the retrieved context.
+# Prompt instructions alone do not guarantee factual or supported answers.
 
-RAG_PROMPT = ChatPromptTemplate.from_template("""
+RAG_PROMPT_TEXT = """
 You are a helpful assistant that answers questions strictly based on the provided context.
 
 Rules:
@@ -54,7 +55,13 @@ Context:
 
 Question: {question}
 
-Answer:""")
+Answer:"""
+
+
+def _get_prompt():
+    from langchain_core.prompts import ChatPromptTemplate
+
+    return ChatPromptTemplate.from_template(RAG_PROMPT_TEXT)
 
 
 def _format_context(docs: List[Document]) -> str:
@@ -99,7 +106,7 @@ def _get_llm():
         raise ValueError(f"Unknown LLM_PROVIDER: {LLM_PROVIDER}. Use 'groq' or 'openai'.")
 
 
-def build_rag_chain():
+def build_rag_chain(top_k: int = TOP_K):
     """
     Build and return the LangChain RAG chain.
     
@@ -107,14 +114,17 @@ def build_rag_chain():
       {"context": retriever_fn, "question": passthrough} 
           → prompt → llm → output_parser
     """
+    from langchain_core.output_parsers import StrOutputParser
+    from langchain_core.runnables import RunnablePassthrough
+
     llm = _get_llm()
 
     chain = (
         {
-            "context": lambda x: _format_context(retrieve(x["question"])),
+            "context": lambda x: _format_context(retrieve(x["question"], top_k=top_k)),
             "question": RunnablePassthrough() | (lambda x: x["question"]),
         }
-        | RAG_PROMPT
+        | _get_prompt()
         | llm
         | StrOutputParser()
     )
@@ -122,7 +132,18 @@ def build_rag_chain():
     return chain
 
 
-def ask(question: str) -> Dict[str, Any]:
+def _generate_answer(question: str, docs: List[Document]) -> str:
+    """Generate an answer; retrieval can be tested without model dependencies."""
+    from langchain_core.output_parsers import StrOutputParser
+
+    prompt = _get_prompt().format_messages(
+        context=_format_context(docs), question=question
+    )
+    response = _get_llm().invoke(prompt)
+    return StrOutputParser().invoke(response)
+
+
+def ask(question: str, top_k: int = TOP_K) -> Dict[str, Any]:
     """
     Main entry point: ask a question, get an answer + sources.
     
@@ -133,7 +154,7 @@ def ask(question: str) -> Dict[str, Any]:
         }
     """
     # Retrieve relevant chunks
-    docs = retrieve(question)
+    docs = retrieve(question, top_k=top_k)
 
     if not docs:
         return {
@@ -142,12 +163,7 @@ def ask(question: str) -> Dict[str, Any]:
         }
 
     # Build context and run through chain
-    llm = _get_llm()
-    context = _format_context(docs)
-
-    prompt = RAG_PROMPT.format_messages(context=context, question=question)
-    response = llm.invoke(prompt)
-    answer = StrOutputParser().invoke(response)
+    answer = _generate_answer(question, docs)
 
     # Build source list for transparency
     sources = []

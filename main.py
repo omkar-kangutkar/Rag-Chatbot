@@ -16,15 +16,21 @@ Run with:
 import os
 import time
 from contextlib import asynccontextmanager
-from typing import List, Optional
+from typing import List
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from app.chain import ask
-from app.config import CHROMA_PERSIST_DIR
-from app.ingest import run_ingestion
+from app.config import CHROMA_PERSIST_DIR, TOP_K
+
+
+def run_ingestion():
+    """Load ingestion dependencies only when ingestion is requested."""
+    from app.ingest import run_ingestion as ingest
+
+    return ingest()
 
 
 # ── Lifespan: pre-load vector store on startup ───────────────────────────────
@@ -66,7 +72,7 @@ app.add_middleware(
 
 class ChatRequest(BaseModel):
     question: str = Field(..., min_length=3, example="What is this document about?")
-    top_k: Optional[int] = Field(default=4, ge=1, le=10, description="Number of chunks to retrieve")
+    top_k: int = Field(default=TOP_K, ge=1, le=10, description="Maximum number of chunks to retrieve before relevance filtering")
 
 class SourceItem(BaseModel):
     source: str
@@ -142,7 +148,7 @@ def chat(request: ChatRequest):
     """
     start = time.time()
     try:
-        result = ask(request.question)
+        result = ask(request.question, top_k=request.top_k)
         elapsed = round((time.time() - start) * 1000, 2)
 
         return ChatResponse(

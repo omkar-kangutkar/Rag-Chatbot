@@ -45,8 +45,8 @@ Your Documents (.txt / .pdf / .md)
 ### 1. Clone and install
 
 ```bash
-git clone <your-repo-url>
-cd rag-chatbot
+git clone https://github.com/omkar-kangutkar/Rag-Chatbot.git
+cd Rag-Chatbot
 pip install -r requirements.txt
 ```
 
@@ -91,7 +91,7 @@ This runs once. Re-run only when you add new documents.
 # via curl
 curl -X POST http://localhost:8000/chat \
   -H "Content-Type: application/json" \
-  -d '{"question": "What are the types of machine learning?"}'
+  -d '{"question": "What are the types of machine learning?", "top_k": 4}'
 
 # Response:
 # {
@@ -120,6 +120,34 @@ Open [http://localhost:8501](http://localhost:8501)
 | `/docs` | GET | Interactive Swagger UI |
 
 ## Key Design Decisions
+
+### Retrieval settings
+
+`POST /chat` accepts an optional `top_k` integer from 1 to 10. Omit it to use
+the configured default of 4. The value controls the maximum number of chunks
+requested from vector search; relevance filtering may return fewer chunks.
+Explicit `null`, out-of-range values and fractional values are rejected with
+HTTP 422. If no relevant chunks are returned, the API returns an insufficient
+evidence response without calling the LLM.
+
+### Automated tests
+
+Run the API and retrieval tests without API keys, embedding downloads or an
+existing vector database:
+
+```bash
+python -m venv .venv-test
+source .venv-test/bin/activate
+python -m pip install -r requirements-test.txt
+python -m pytest -q
+```
+
+The tests exercise the HTTP endpoint through answer orchestration and vector
+search with a fake store. They also test LangChain prompt/output handling with
+a fake model. They verify parameter forwarding, validation, relevance filtering,
+empty results and an unready store. They do not measure real retrieval quality,
+live provider compatibility or model answer correctness. GitHub Actions runs
+this suite on pushes and pull requests.
 
 **Why local embeddings?** `all-MiniLM-L6-v2` runs on CPU, no API key needed, and is fast enough for most use cases. Swap to OpenAI embeddings in `config.py` for better quality at a cost.
 
