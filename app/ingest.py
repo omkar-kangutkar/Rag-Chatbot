@@ -1,15 +1,7 @@
-"""
-ingest.py
----------
-Pipeline:
-  1. Load raw documents from ./data
-  2. Split into chunks (with overlap)
-  3. Embed each chunk using HuggingFace sentence-transformers
-  4. Store in ChromaDB (persisted to disk)
+"""Load documents, create stable chunks and store their embeddings."""
 
-Run this once (or re-run whenever you add new documents):
-  python -m app.ingest
-"""
+import hashlib
+import json
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
@@ -26,50 +18,56 @@ from app.config import (
 from app.utils import clean_text, load_documents_from_dir
 
 
-def run_ingestion(data_dir: str = DATA_DIR) -> Chroma:
-    """
-    Full ingestion pipeline. Returns the populated Chroma vector store.
-    """
-    print("=== RAG Ingestion Pipeline ===\n")
+def chunk_id(chunk) -> str:
+    """Identify a chunk independently of its filename or upload order."""
+    identity = {
+        "document_id": chunk.metadata["document_id"],
+        "page": chunk.metadata.get("page"),
+        "start_index": chunk.metadata["start_index"],
+        "text": chunk.page_content,
+    }
+    encoded = json.dumps(identity, sort_keys=True).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
-    # ── Step 1: Load documents ──────────────────────────────────────────────
-    print("Step 1: Loading documents...")
+
+def run_ingestion(data_dir: str = DATA_DIR) -> Chroma:
+    """Index documents using stable IDs for repeated identical uploads."""
     documents = load_documents_from_dir(data_dir)
 
-    # Clean text content in-place
-    for doc in documents:
-        doc.page_content = clean_text(doc.page_content)
+    for document in documents:
+        document.page_content = clean_text(document.page_content)
 
-    # ── Step 2: Chunk documents ─────────────────────────────────────────────
-    print(f"\nStep 2: Chunking (size={CHUNK_SIZE}, overlap={CHUNK_OVERLAP})...")
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
-        # Try to split on natural boundaries first
+        add_start_index=True,
         separators=["\n\n", "\n", ". ", " ", ""],
     )
     chunks = splitter.split_documents(documents)
-    print(f"  → {len(documents)} document(s) split into {len(chunks)} chunks")
 
-    # ── Step 3: Embed & store ───────────────────────────────────────────────
-    print(f"\nStep 3: Embedding with '{EMBEDDING_MODEL}'...")
-    print("  (First run downloads ~90MB model — cached after that)")
+    if not chunks:
+        raise ValueError("No readable text found in the supplied documents.")
+
+    # Remove identical chunks within this ingestion request.
+    unique_chunks = {}
+    for chunk in chunks:
+        unique_chunks.setdefault(chunk_id(chunk), chunk)
 
     embeddings = HuggingFaceEmbeddings(
         model_name=EMBEDDING_MODEL,
-        model_kwargs={"device": "cpu"},       # change to "cuda" if you have GPU
+        model_kwargs={"device": "cpu"},
         encode_kwargs={"normalize_embeddings": True},
     )
 
-    print(f"\nStep 4: Storing in ChromaDB at '{CHROMA_PERSIST_DIR}'...")
     vectorstore = Chroma.from_documents(
-        documents=chunks,
+        documents=list(unique_chunks.values()),
+        ids=list(unique_chunks),
         embedding=embeddings,
         collection_name=COLLECTION_NAME,
         persist_directory=CHROMA_PERSIST_DIR,
     )
 
-    print(f"\n✅ Ingestion complete. {len(chunks)} chunks stored in vector store.")
+    print(f"Ingestion complete: {len(unique_chunks)} unique chunks processed.")
     return vectorstore
 
 

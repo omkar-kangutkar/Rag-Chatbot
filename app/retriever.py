@@ -32,10 +32,7 @@ def reset_vectorstore_cache() -> None:
     _vectorstore = None
 
 def get_vectorstore() -> Chroma:
-    """
-    Load (or return cached) ChromaDB vector store.
-    Raises RuntimeError if the store hasn't been created yet (run ingest.py first).
-    """
+    """Return a cached store, or load and validate it before caching."""
     global _vectorstore
 
     if _vectorstore is not None:
@@ -50,23 +47,22 @@ def get_vectorstore() -> Chroma:
         encode_kwargs={"normalize_embeddings": True},
     )
 
-    _vectorstore = Chroma(
+    vectorstore = Chroma(
         collection_name=COLLECTION_NAME,
         embedding_function=embeddings,
         persist_directory=CHROMA_PERSIST_DIR,
     )
 
-    # Sanity check — fail early if store is empty
-    count = _vectorstore._collection.count()
+    count = vectorstore._collection.count()
     if count == 0:
         raise RuntimeError(
             "Vector store is empty. Run ingestion first:\n"
             "  python -m app.ingest"
         )
 
+    _vectorstore = vectorstore
     print(f"[retriever] Loaded vector store with {count} chunks.")
     return _vectorstore
-
 
 def retrieve(query: str, top_k: int = TOP_K) -> List[Document]:
     """
