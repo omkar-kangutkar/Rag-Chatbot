@@ -26,7 +26,10 @@ from app.config import (
 
 # Module-level cache so we don't reload on every request
 _vectorstore: Chroma | None = None
-
+def reset_vectorstore_cache() -> None:
+    """Reload the vector store on the next retrieval."""
+    global _vectorstore
+    _vectorstore = None
 
 def get_vectorstore() -> Chroma:
     """

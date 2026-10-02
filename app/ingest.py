@@ -26,7 +26,7 @@ from app.config import (
 from app.utils import clean_text, load_documents_from_dir
 
 
-def run_ingestion() -> Chroma:
+def run_ingestion(data_dir: str = DATA_DIR) -> Chroma:
     """
     Full ingestion pipeline. Returns the populated Chroma vector store.
     """
@@ -34,7 +34,7 @@ def run_ingestion() -> Chroma:
 
     # ── Step 1: Load documents ──────────────────────────────────────────────
     print("Step 1: Loading documents...")
-    documents = load_documents_from_dir(DATA_DIR)
+    documents = load_documents_from_dir(data_dir)
 
     # Clean text content in-place
     for doc in documents:
